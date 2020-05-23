@@ -1,20 +1,65 @@
-module.exports = {
-    async store(req, res) {
-        const {
-            name,
-            price,
-            description
-        } = req.body;
+const { Product } = require('../Models/Product')
 
-        if(name === ''  || price === '') {
+module.exports = {
+
+    async store(req, res) {
+        
+        try {
+            
+            const {
+                name,
+                price,
+                description
+            } = req.body;
+    
+            if(!name || !price) {
+                return res.status(400).json({
+                    error: "Invalid info."
+                })
+            }
+
+            await Product.create({
+                name,
+                price,
+                description
+            })
+
             return res.status(202).json({
-                success : "Produto Criado"
+                success: 'Products created.'
+            })
+
+        } catch (error) {
+            return res.status(500).json(error)
+        }
+    },
+
+    async index (req, res) {
+        try 
+        {
+            const products = await Product.find();
+            return res.status(200).json(products);
+
+        }
+        catch(err)
+        {
+            return res.status(500).json({
+                error: "Nenhum produto encontrado"
             })
         }
-        else {
+    },
+
+    async Show(req, res) {
+        const { id } = req.query;
+
+        if(!id)
+         {
             return res.status(404).json({
-                error: "undefined"
+                error: "Bad query"
             })
         }
+
+        const product = await Product.findById(id);
+        res.status(200).json(product);
     }
+
 }

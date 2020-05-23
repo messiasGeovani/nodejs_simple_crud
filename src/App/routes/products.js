@@ -1,10 +1,9 @@
 const express = require('express');
 
+const productController = require('../controllers/productController')
+
 const routes = express.Router();
 
-routes.get('/', async (req, res) => {
-    return res.send("Hello World");
-    
-});
+routes.post('/', productController.store);
 
 module.exports = routes;

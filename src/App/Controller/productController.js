@@ -46,6 +46,20 @@ module.exports = {
                 error: "Nenhum produto encontrado"
             })
         }
+    },
+
+    async Show(req, res) {
+        const { id } = req.query;
+
+        if(!id)
+         {
+            return res.status(404).json({
+                error: "Bad query"
+            })
+        }
+
+        const product = await Product.findById(id);
+        res.status(200).json(product);
     }
 
 }

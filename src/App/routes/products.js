@@ -5,6 +5,8 @@ const routes = express.Router();
 
 routes.post('/', productController.store);
 routes.get('/', productController.index);
-routes.get('/single', productController.Show)
+routes.get('/single', productController.Show);
+routes.delete('/single', productController.remove);
+routes.put('/single', productController.putProducts);
 
 module.exports = routes;

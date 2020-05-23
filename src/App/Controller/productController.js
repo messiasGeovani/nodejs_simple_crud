@@ -60,6 +60,40 @@ module.exports = {
 
         const product = await Product.findById(id);
         res.status(200).json(product);
+    },
+
+    async remove(req, res) {
+        const {id} = req.query;
+
+        if(!id) 
+        {
+            return res.status(400).json({
+                error: "Bad Query"
+            })
+        }
+
+        const product = await Product.findByIdAndDelete(id)
+
+        return res.status(200).json({
+            success: "Deletado com sucesso"
+        })
+    },
+
+    async putProducts(req, res) {
+        const { id } = req.query;
+
+        if(!id)
+        {
+            return res.status(400).json({
+                error: "Não encontrado"
+            })
+        }
+        
+        await Product.findByIdAndUpdate(id, req.body);
+
+        return res.status(200).json({
+            success: "Atualizado com Sucesso"
+        })
     }
 
 }
